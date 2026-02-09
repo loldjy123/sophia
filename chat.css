@@ -1,0 +1,1103 @@
+:root {
+  --bg-body: #f3f4f6;
+  --bg-surface: #ffffff;
+  --bg-sidebar: #f9fafb;
+  --border-subtle: #e5e7eb;
+  --text-main: #0f172a;
+  --text-muted: #6b7280;
+  --accent: #2563eb;
+  --accent-soft: #e0edff;
+  --shadow-soft: 0 20px 40px rgba(15, 23, 42, 0.08);
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text-main);
+  background: radial-gradient(circle at top left, #e5edff, #f9fafb 40%, #eef2ff);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Layout */
+.layout{
+  display:grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  height:100vh;
+  overflow:hidden;
+}
+
+
+/* Transform the right column into a sliding drawer */
+.right-column {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    border-left: 1px solid #e5e7eb;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+    transform: translateX(100%); /* Start hidden (closed) */
+    display: flex;
+    flex-direction: column;
+}
+
+/* This class will be added by JS to open the bar */
+.right-column.open {
+    transform: translateX(0);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+
+.center-column {
+  padding: 14px 18px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sidebars */
+.sidebar {
+  background: var(--bg-sidebar);
+  border-right: 1px solid rgba(229, 231, 235, 0.9);
+  border-left: 1px solid rgba(229, 231, 235, 0.9);
+  display: flex;
+  flex-direction: column;
+  padding: 14px 14px 16px;
+}
+
+.sidebar-left {
+  height: 100%; /* Fill the 100vh of the .layout */
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* This hides the "overflow", forcing the child to scroll instead */
+  border-right: 1px solid var(--border-subtle);
+}
+
+.sidebar-right { border-right: none; }
+
+.sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sidebar-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #60a5fa, #2563eb 60%, #1e3a8a 100%);
+  box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.25);
+}
+
+.brand-name {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.header-toggle-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+  background: #f9fafb;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #9ca3af;
+}
+
+.header-toggle-btn:hover {
+  background: #e5e7eb;
+  color: #6b7280;
+}
+
+.header-toggle-btn svg {
+  width: 18px;
+  height: 14px;
+}
+
+/* Left sidebar contents */
+.sidebar-header {
+  padding: 10px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.85);
+}
+
+.sidebar-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #9ca3af;
+}
+
+.sidebar-new {
+  border: none;
+  background: rgba(209, 213, 219, 0.4);
+  color: #4b5563;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+
+.sidebar-footer {
+  border-top: 1px solid rgba(229, 231, 235, 0.9);
+  padding: 6px 0 0;
+}
+
+.account {
+  width: 100%;
+  border-radius: 12px;
+  border: none;
+  padding: 7px 8px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.account-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.account-name {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.account-plan {
+  font-size: 11px;
+  color: #16a34a;
+}
+
+/* Mini-left collapsed */
+.sidebar-mini-left {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.mini-brand-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  position: relative;
+}
+
+.mini-dot, .mini-toggle-icon {
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.mini-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #60a5fa, #2563eb 60%, #1e3a8a 100%);
+  box-shadow: 0 0 0 4px rgba(129, 140, 248, 0.35);
+}
+
+.mini-toggle-icon {
+  opacity: 0;
+  position: absolute;
+}
+
+.mini-toggle-icon svg {
+  width: 22px;
+  height: 16px;
+  color: #9ca3af;
+}
+
+.mini-brand-btn:hover .mini-dot { opacity: 0; transform: scale(0.7); }
+.mini-brand-btn:hover .mini-toggle-icon { opacity: 1; }
+
+.mini-user {
+  border: none;
+  background: transparent;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+/* Screen */
+.screen {
+  position: relative;
+  flex: 0 0 auto;
+  background: var(--bg-surface);
+  border-radius: 24px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(209, 213, 219, 0.7);
+  padding: 20px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 70vh;
+  max-height: 70vh;
+}
+
+.feed {
+  flex: 1;
+  margin-top: 8px;
+  margin-right: 0; /* ✅ avatar removed, so no need for extra right margin */
+  padding: 8px 2px 4px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow: auto;
+}
+
+.feed p { margin: 0 0 4px; }
+.feed strong { font-weight: 600; }
+
+/* Controls */
+.controls {
+  padding-top: 10px;
+  border-top: 1px solid rgba(229, 231, 235, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.controls-left,
+.controls-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ctrl {
+  border-radius: 999px;
+  background: #f3f4f6;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  padding: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.ctrl svg { display: block; }
+.icon-only { width: 40px; height: 40px; }
+
+.ctrl:hover { background: #e5e7eb; }
+
+/* Raise hand ping */
+@keyframes ping {
+  0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.8); }
+  100% { box-shadow: 0 0 0 18px rgba(251, 191, 36, 0); }
+}
+#handBtn.ping { animation: ping 0.7s ease-out; }
+
+/* Studio tools */
+.studio-inner { display: flex; flex-direction: column; height: 100%; }
+
+.studio-tools {
+  padding: 8px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tool-card {
+  border-radius: 14px;
+  border: 1px solid rgba(209, 213, 219, 0.9);
+  background: #ffffff;
+  padding: 8px 9px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #111827;
+}
+
+.tool-card:hover {
+  border-color: rgba(129, 140, 248, 0.9);
+  box-shadow: 0 12px 24px rgba(79, 70, 229, 0.12);
+}
+
+.tool-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tool-icon svg { width: 18px; height: 18px; }
+
+.tool-text { display: flex; flex-direction: column; align-items: flex-start; }
+.tool-title { font-weight: 600; font-size: 13px; }
+.tool-sub { font-size: 11px; color: var(--text-muted); }
+
+/* Composer */
+.composer {
+  margin-top: auto;
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.composer-shell-dark,
+.composer-shell {
+  flex: 1;
+  max-width: 780px;
+  background: #ffffff;
+  border-radius: 32px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.16);
+  padding: 14px 20px;
+
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.composer-shell-dark textarea,
+.composer-shell textarea {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 0 80px 0 14px;
+  resize: none;
+  background: transparent;
+  color: var(--text-main);
+  max-height: 20vh;
+  overflow-y: hidden;
+}
+
+.composer-shell-dark textarea::-webkit-scrollbar,
+.composer-shell textarea::-webkit-scrollbar { display: none; }
+
+.composer-shell-dark textarea::placeholder,
+.composer-shell textarea::placeholder { color: #9ca3af; }
+
+.composer-icon-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.composer-icon-btn svg { width: 24px; height: 24px; }
+
+.file-input-hidden { display: none; }
+
+/* Recording panel */
+.recording-panel {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  padding-left: 14px;
+}
+.recording-panel.active { display: flex; }
+
+.recording-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.recording-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #ef4444;
+  box-shadow: 0 0 0 6px rgba(248, 113, 113, 0.35);
+}
+
+.recording-bars {
+  display: flex;
+  gap: 2px;
+  height: 16px;
+  width: 100%;
+  max-width: 220px;
+  align-items: flex-end;
+}
+
+.recording-bars span {
+  flex: 1;
+  border-radius: 999px;
+  background: linear-gradient(to top, #a5b4fc, #4f46e5);
+  animation: recBar 0.8s infinite ease-in-out alternate;
+}
+
+.recording-bars span:nth-child(2n) { animation-delay: 0.1s; }
+.recording-bars span:nth-child(3n) { animation-delay: 0.2s; }
+
+@keyframes recBar {
+  from { transform: scaleY(0.2); }
+  to { transform: scaleY(1); }
+}
+
+/* Action button */
+.composer-action-btn {
+  position: absolute;
+  right: 14px;
+  bottom: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #374151;
+}
+.composer-action-btn svg { width: 24px; height: 24px; }
+
+/* Scrollbars */
+.feed::-webkit-scrollbar,
+.chat-list::-webkit-scrollbar { width: 6px; }
+
+.feed::-webkit-scrollbar-thumb,
+.chat-list::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.5);
+  border-radius: 999px;
+}
+
+/* Collapse behaviour */
+/* Only LEFT + CENTER (no right column anymore) */
+.layout.collapsed-left { grid-template-columns: 72px minmax(0, 1fr); }
+
+/* Optional: if collapsed-right ever appears, ignore it */
+.layout.collapsed-left.collapsed-right { grid-template-columns: 72px minmax(0, 1fr); }
+
+
+.layout.collapsed-left .sidebar-left .sidebar-brand-row,
+.layout.collapsed-left .sidebar-left .sidebar-main-left { display: none; }
+.layout.collapsed-left .sidebar-left .sidebar-mini-left { display: flex; }
+
+
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .layout { grid-template-columns: 220px minmax(0, 1fr) 72px; }
+}
+
+/* Styling the AI steps in the feed */
+.message-block {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+}
+
+.message-block svg {
+    width: 100%;
+    height: auto;
+    max-height: 300px; /* Prevent huge scrolls */
+    display: block;
+    margin: 0 auto;
+}
+
+/* Pre-define the look in your CSS so the AI doesn't have to describe it */
+.node { fill: white; stroke: black; stroke-width: 2; r: 20; }
+.active { fill: #4CAF50; }
+
+.message-block {
+  width: 100%;
+  min-height: 50px;
+  margin: 10px 0;
+  overflow: visible; /* Ensure SVG isn't clipped */
+}
+
+.tutoai-scroll {
+  overflow: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+
+/* --- ADD THIS TO YOUR EXISTING CSS --- */
+
+.message-container {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.visual-container {
+    width: 100%;
+    margin: 15px 0;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #e5e7eb;
+}
+
+.visual-container svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+}
+
+.explanation {
+    background: #f8fafc;
+    border-left: 4px solid #2563eb;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #1e293b;
+    margin-top: 5px;
+}
+
+.user-msg {
+    text-align: right;
+    color: #2563eb;
+    font-weight: 500;
+    padding: 8px;
+}
+
+.error-msg {
+    font-size: 12px;
+    background: #fef2f2;
+}
+
+
+/* Full-screen blur overlay */
+#sophia-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.7); /* Dark semi-transparent */
+  backdrop-filter: blur(12px);      /* Modern glass blur effect */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;                   /* Stays above everything */
+  transition: opacity 0.4s ease;
+}
+
+/* Helper to hide the orb when not needed */
+.sophia-hidden {
+  opacity: 0;
+  pointer-events: none;
+  display: none !important;
+}
+
+.sophia-orb-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#sophia-orb-container {
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.5)); /* Purple glow */
+}
+
+.sophia-status-text {
+  color: #fff;
+  margin-top: 30px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: sophiaPulse 2s infinite ease-in-out;
+}
+
+@keyframes sophiaPulse {
+  0%, 100% { opacity: 0.4; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.composer-shell-dark {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  min-height: 110px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#ask {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  resize: none;
+  background: transparent;
+  color: #3c4043;
+  padding: 0;
+}
+
+.composer-bottom-row {
+  display: flex;
+  justify-content: space-between; /* Pushes Plus to left, Send to right */
+  align-items: center;
+  margin-top: 12px;
+}
+
+/* Rounded Plus Button styling */
+.composer-icon-btn {
+  background: none;
+  border: none;
+  color: #5f6368;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.composer-icon-btn:hover {
+  background-color: #f1f3f4;
+}
+
+/* The Blue Send Button */
+.gemini-send-btn {
+  background-color: #e8f0fe; /* Light blue circle from screenshot */
+  color: #1a73e8;           /* Blue icon color */
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.gemini-send-btn:hover {
+  background-color: #d2e3fc;
+}
+
+
+/* Container - Forced Column Layout */
+.composer-shell-dark {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 16px 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  min-height: 120px; /* Big like Gemini */
+  width: 100%;
+  max-width: 780px;
+  box-sizing: border-box;
+  border: 1px solid #e5e7eb;
+}
+
+/* Row 1 Styles */
+.composer-top-row {
+  width: 100%;
+  flex: 1;
+}
+
+#ask {
+  width: 100%;
+  border: none !important;
+  outline: none !important;
+  font-size: 16px;
+  resize: none;
+  background: transparent;
+  color: #3c4043;
+  padding: 0;
+  min-height: 40px;
+  display: block;
+}
+
+/* Row 2 Styles */
+.composer-bottom-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.toolbar-left, .toolbar-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Plus Dropdown Menu */
+.attach-menu-container { position: relative; }
+.plus-dropdown {
+  display: none;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 220px;
+  z-index: 1000;
+  padding: 8px;
+  border: 1px solid #eee;
+}
+.plus-dropdown.show { display: block; }
+.dropdown-item {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.dropdown-item:hover { background: #f5f5f5; }
+
+/* The Send Button Color and Shape */
+.gemini-send-btn {
+  background-color: #e8f0fe; 
+  color: #1a73e8;           
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.gemini-send-btn:hover {
+  background-color: #d2e3fc;
+}
+
+/* Highlight the button when in Course Mode */
+.course-mode-active {
+  background-color: #2563eb !important; /* Blue color */
+  color: white !important;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.4);
+}
+
+/* Sidebar Styling */
+.course-main-title {
+  padding: 10px 16px;
+  font-weight: 800;
+  color: #2563eb;
+  font-size: 15px;
+}
+
+.sidebar-section-header {
+  padding: 15px 16px 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 0.05em;
+}
+
+/* Sidebar Course Header */
+.course-main-title {
+  padding: 16px;
+  font-weight: 800;
+  font-size: 14px;
+  color: #1a73e8; /* Blue accent */
+  border-bottom: 1px solid #f1f3f4;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Section Headings */
+.sidebar-section-header {
+  padding: 18px 16px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #70757a;
+  text-transform: uppercase;
+}
+
+/* Module Item Container */
+.module-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px !important;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.module-item:hover {
+  background-color: #f1f3f4 !important;
+}
+
+/* THE MAGIC: Text Truncation Logic */
+.module-title-text {
+  flex: 1;
+  font-size: 14px;
+  color: #3c4043;
+  text-align: left;
+  
+  /* These 3 lines create the "..." effect */
+  white-space: nowrap;      /* Keep text on one line */
+  overflow: hidden;         /* Hide the part that doesn't fit */
+  text-overflow: ellipsis;  /* Add the "..." */
+}
+
+.module-icon {
+  margin-right: 12px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* The Section Header (The Label) */
+.sidebar-section-header {
+  padding: 24px 16px 8px 16px; /* More space above to separate from previous section */
+  font-size: 11px;             /* Smaller size for elegance */
+  font-weight: 700;            /* Bold enough to read */
+  text-transform: uppercase;   /* All caps for a professional label look */
+  color: #70757a;              /* Soft gray so it doesn't compete with lesson titles */
+  letter-spacing: 0.08em;      /* Increased spacing for high-end feel */
+  user-select: none;           /* Prevents text highlighting */
+  display: block;
+}
+
+/* The Module Item (The Actionable button) */
+.module-item {
+  width: 100%;
+  padding: 8px 16px !important;
+  margin: 2px 0;
+  border-radius: 0 20px 20px 0; /* Rounded on the right side only */
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.module-item:hover {
+  background-color: #f1f3f4 !important;
+}
+
+/* Ensure the module text looks like a clean title */
+.module-title-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #3c4043;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 1. Make the sidebar itself a flex container that doesn't grow */
+.sidebar-left {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;      /* Lock to screen height */
+  overflow: hidden;   /* Prevent the main container from scrolling */
+  position: sticky;
+  top: 0;
+}
+
+/* 2. The scrollable area (where modules are rendered) */
+.chat-list {
+  flex: 1;            /* Take up all remaining space */
+  overflow-y: auto;   /* Show scrollbar only when needed */
+  padding-bottom: 20px;
+  
+  /* Custom Scrollbar for a modern look (Chrome/Safari/Edge) */
+}
+
+.chat-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.chat-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-list::-webkit-scrollbar-thumb {
+  background: #dadce0; /* Subtle gray */
+  border-radius: 10px;
+}
+
+.chat-list::-webkit-scrollbar-thumb:hover {
+  background: #bdc1c6;
+}
+
+.sidebar-main-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Critical: Allows flex child to be smaller than its content */
+}
+
+.chat-list {
+  flex: 1;
+  overflow-y: auto; /* Enable vertical scroll */
+  overflow-x: hidden;
+  min-height: 0; /* Essential for flexbox scrolling */
+  padding-right: 4px; /* Space for the scrollbar */
+}
+
+
+/* When in fullscreen, make the board take up almost the whole view */
+#screen:fullscreen #board {
+  width: 95% !important;
+  max-width: none !important; /* Removes any 800px or 900px limits */
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Make sure SVGs inside scale to fit the new width */
+#screen:fullscreen svg {
+  width: 100%;
+  height: auto;
+  max-height: 70vh; /* Prevents the SVG from getting taller than the screen */
+}
+
+/* Fullscreen override */
+#screen:fullscreen {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  width: 100vw;
+  border-radius: 0;
+}
+
+#screen {
+  display: flex;
+  flex-direction: column;
+}
+
+#screen .feed {
+  flex: 1;
+  min-height: 0; /* critical for scrolling */
+}
+
+
+/* normal mode: keep your 70vh screen */
+.screen { height: 70vh; max-height: 70vh; }
+
+/* iframe sizing */
+.sandbox-frame { width: 100%; height: 650px; border: 1px solid #eee; border-radius: 12px; background: #fff; }
+
+/* fullscreen: screen becomes full height */
+#screen:fullscreen { height: 100vh; max-height: 100vh; width: 100vw; padding: 12px; }
+
+/* fullscreen: stop feed from scrolling and let iframe fill remaining space */
+#screen:fullscreen .feed { overflow: hidden; }
+
+/* fullscreen: iframe fills the available height (viewport minus controls area) */
+#screen:fullscreen .sandbox-frame { height: calc(100vh - 90px); }
+
+#questionBtn svg path:last-child {
+  stroke-width: 2.5;
+}
+
+.popup-wrapper {
+  position: relative; /* Anchor point for the popup */
+  display: inline-block;
+}
+
+#questionPopup {
+  position: absolute;
+  bottom: 55px; /* Sits exactly above the button */
+  right: 0;
+  width: 240px;
+  background-color: #2d2d2d; /* Dark theme from your screenshot */
+  color: #efefef;
+  border-radius: 8px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  border: 1px solid #444;
+  pointer-events: auto;
+}
+
+/* The "Hide" state */
+.question-popup-hidden {
+  display: none !important;
+}
+
+#questionText {
+  font-size: 13.5px;
+  line-height: 1.5;
+  display: block;
+}
+
+/* Optional: Add a small triangle pointing to the button */
+#questionPopup::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  right: 15px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #2d2d2d;
+}
