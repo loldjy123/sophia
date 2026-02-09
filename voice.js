@@ -4,14 +4,12 @@
 
 import { ElevenLabsClient } from 'https://esm.sh/@elevenlabs/elevenlabs-js';
 
-// const VOICE_ID = 'JBFqnCBsd6RMkjVDRZzb';
 const VOICE_ID = 'hpp4J3VqNfWAUOO0d1Us';
 const MODEL_ID = 'eleven_multilingual_v2';
 
 // NOTE: For production, DO NOT ship your ElevenLabs API key in the browser.
 // Put TTS behind your own server endpoint and call that instead.
-//const ELEVEN_API_KEY = 'sk_4ef53dc4a7e9237f213e65a7633a6c30998024d3e60d4a47';
-const ELEVEN_API_KEY = 'sk_cc914ab5eff3ce94b968df629c2d0bfe3813f6ebf1e1de0f';
+const ELEVEN_API_KEY = process.env.EL_KEY;
 
 let elevenlabs = null;
 
