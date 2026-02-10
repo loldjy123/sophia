@@ -9,8 +9,6 @@ async function askGemini(userPrompt) {
     
     // Notice the endpoint uses :generateContent and passes the key in the URL
     const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
-    //const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
-
     
 
     const promptInstructions = `
@@ -265,8 +263,6 @@ async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
 
   if (!API_KEY) throw new Error("Missing GEMINI_KEY");
 
-
-  
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
   // Normalize inputs (works even if caller passes a string by mistake)
@@ -359,7 +355,7 @@ async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
 
 async function handleInterruption(userQuestion, currentStepInfo, topic){
   const API_KEY = process.env.GEMINI_KEY;
-    if (!API_KEY) throw new Error("Missing GEMINI_KEY");
+  if (!API_KEY) throw new Error("Missing GEMINI_KEY");
 
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
