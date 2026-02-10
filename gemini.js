@@ -540,7 +540,7 @@ export async function fixAgent(brokenJson, errorMessage, attempt = 1) {
     throw new Error(`fixAgent: Failed to repair JSON after ${MAX_ATTEMPTS} attempts.`);
   }
 
-  const API_KEY = = process.env.GEMINI_KEY;
+  const API_KEY = process.env.GEMINI_KEY;
   
   const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
