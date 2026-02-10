@@ -1,5 +1,5 @@
 
-export async function askGemini(userPrompt) {
+async function askGemini(userPrompt) {
 
     const API_KEY = process.env.GEMINI_KEY;
 
@@ -443,7 +443,7 @@ export async function handleInterruption(userQuestion, currentStepInfo, topic){
 
 }
 
-export async function courseGenerator(courseInfo){
+async function courseGenerator(courseInfo){
 
   const API_KEY = process.env.GEMINI_KEY;
     if (!API_KEY){
@@ -529,7 +529,7 @@ export async function courseGenerator(courseInfo){
   }
 }
 
-export async function fixAgent(brokenJson, errorMessage, attempt = 1) {
+async function fixAgent(brokenJson, errorMessage, attempt = 1) {
   const MAX_ATTEMPTS = 3;
   
   if (attempt > MAX_ATTEMPTS) {
@@ -608,7 +608,5 @@ export default async function handler(req, res) {
     return res.status(200).json({ ok: true, result });
   } catch (e) {
     return res.status(500).json({ ok: false, error: e.message || String(e) });
-  }
-}
   }
 }
