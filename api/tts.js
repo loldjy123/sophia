@@ -1,8 +1,7 @@
 // pages/api/tts.js
 import { ElevenLabsClient } from "elevenlabs"; // npm i elevenlabs (official package)
 
-// pages/api/tts.js
-import { ElevenLabsClient } from "elevenlabs"; // npm i elevenlabs (official package)
+
 
 const VOICE_ID = "hpp4J3VqNfWAUOO0d1Us";
 const MODEL_ID = "eleven_multilingual_v2";
