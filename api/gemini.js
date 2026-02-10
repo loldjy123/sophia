@@ -1,55 +1,4 @@
 
-function getKey() {
-  const k = process.env.GEMINI_KEY;
-  if (!k) throw new Error("Missing GEMINI_KEY in Vercel env vars.");
-  return k;
-}
-
-async function geminiGenerate({ model, prompt, temperature = 0.1, maxOutputTokens = 2048, responseMimeType }) {
-  const apiKey = getKey();
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-
-  const body = {
-    contents: [{ parts: [{ text: prompt }] }],
-    generationConfig: {
-      temperature,
-      maxOutputTokens,
-      ...(responseMimeType ? { responseMimeType } : {})
-    }
-  };
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body)
-  });
-
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error(`Gemini API error: ${res.status} ${res.statusText}\n${errText}`);
-  }
-
-  return await res.json();
-}
-
-function extractText(data) {
-  return data?.candidates?.[0]?.content?.parts?.[0]?.text ?? "";
-}
-
-function safeParseJson(text) {
-  try { return JSON.parse(text); } catch { return null; }
-}
-
-function safeExtractJsonObject(rawText) {
-  const start = rawText.indexOf("{");
-  const end = rawText.lastIndexOf("}");
-  if (start === -1 || end === -1 || end <= start) return null;
-  return safeParseJson(rawText.slice(start, end + 1));
-}
-
-
-
-// old api AIzaSyBZEVJBRSfFcbaPnnH9lcCzuio2YJbvOq8
 export async function askGemini(userPrompt) {
 
     const API_KEY = process.env.GEMINI_KEY;
@@ -642,15 +591,24 @@ export default async function handler(req, res) {
 
     let result;
 
-    if (fn === "askGemini") result = await askGemini(args?.userPrompt);
-    else if (fn === "askSophiaJudge") result = await askSophiaJudge(args?.questionObj, args?.userAnswer, args?.attemptNumber);
-    else if (fn === "handleInterruption") result = await handleInterruption(args?.userQuestion, args?.currentStepInfo, args?.topic);
-    else if (fn === "courseGenerator") result = await courseGenerator(args?.courseInfo);
-    else if (fn === "fixAgent") result = await fixAgent(args?.brokenJson, args?.errorMessage, args?.attempt);
-    else return res.status(400).json({ error: `Unknown fn: ${fn}` });
+    if (fn === "askGemini") {
+      result = await askGemini(args?.userPrompt);
+    } else if (fn === "askSophiaJudge") {
+      result = await askSophiaJudge(args?.questionObj, args?.userAnswer, args?.attemptNumber);
+    } else if (fn === "handleInterruption") {
+      result = await handleInterruption(args?.userQuestion, args?.currentStepInfo, args?.topic);
+    } else if (fn === "courseGenerator") {
+      result = await courseGenerator(args?.courseInfo);
+    } else if (fn === "fixAgent") {
+      result = await fixAgent(args?.brokenJson, args?.errorMessage, args?.attempt);
+    } else {
+      return res.status(400).json({ error: `Unknown fn: ${fn}` });
+    }
 
     return res.status(200).json({ ok: true, result });
   } catch (e) {
     return res.status(500).json({ ok: false, error: e.message || String(e) });
+  }
+}
   }
 }
