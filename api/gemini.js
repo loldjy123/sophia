@@ -528,6 +528,7 @@ async function fixAgent(brokenJson, errorMessage, attempt = 1) {
   }
 
   const API_KEY = process.env.GEMINI_KEY;
+  if (!API_KEY) throw new Error("Missing GEMINI_KEY");
   
   const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
