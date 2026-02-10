@@ -267,7 +267,7 @@ async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
 
 
   
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
   // Normalize inputs (works even if caller passes a string by mistake)
   const q = (typeof questionObj === "string")
@@ -362,7 +362,7 @@ async function handleInterruption(userQuestion, currentStepInfo, topic){
     if (!API_KEY) throw new Error("Missing GEMINI_KEY");
 
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
 
   const get_question = `
