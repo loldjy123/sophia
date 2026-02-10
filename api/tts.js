@@ -34,7 +34,15 @@ export default async function handler(req, res) {
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Cache-Control", "no-store");
     return res.status(200).send(audioBuffer);
-  } catch (e) {
-    return res.status(500).json({ error: e.message || String(e) });
+    } catch (e) {
+    const status = e?.statusCode || e?.status || 500;
+    const details =
+      e?.body?.detail ||
+      e?.body?.message ||
+      e?.message ||
+      String(e);
+
+    return res.status(status).json({ error: details });
   }
+
 }
