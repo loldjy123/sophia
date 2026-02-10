@@ -36,13 +36,23 @@ export default async function handler(req, res) {
     return res.status(200).send(audioBuffer);
     } catch (e) {
     const status = e?.statusCode || e?.status || 500;
-    const details =
+
+    // Try to extract useful details from ElevenLabs SDK errors
+    let details =
       e?.body?.detail ||
       e?.body?.message ||
+      e?.response?.data ||
       e?.message ||
       String(e);
 
-    return res.status(status).json({ error: details });
+    // Make sure it's a string
+    if (typeof details !== "string") {
+      try { details = JSON.stringify(details); } catch { details = String(details); }
+    }
+
+    // IMPORTANT: return plain text so your voice.js sees it in res.text()
+    res.setHeader("Content-Type", "text/plain");
+    return res.status(status).send(details);
   }
 
 }
