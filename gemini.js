@@ -265,7 +265,7 @@ export async function askGemini(userPrompt) {
 }
 
 export async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
-  const apiKey = = process.env.GEMINI_KEY;
+  const apiKey = process.env.GEMINI_KEY;
 
     if (!apiKey){
         console.error("Error");
@@ -362,7 +362,7 @@ export async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0)
 }
 
 export async function handleInterruption(userQuestion, currentStepInfo, topic){
-  const apiKey = = process.env.GEMINI_KEY;
+  const apiKey = process.env.GEMINI_KEY;
 
     if (!apiKey){
         console.error("Error");
@@ -449,7 +449,7 @@ export async function handleInterruption(userQuestion, currentStepInfo, topic){
 
 export async function courseGenerator(courseInfo){
 
-  const API_KEY = = process.env.GEMINI_KEY;
+  const API_KEY = process.env.GEMINI_KEY;
     if (!API_KEY){
         console.error("Error");
     }
