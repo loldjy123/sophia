@@ -261,9 +261,9 @@ async function askGemini(userPrompt) {
 }
 
 async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
-  const apiKey = process.env.GEMINI_KEY;
+  const API_KEY = process.env.GEMINI_KEY;
 
-    if (!apiKey) throw new Error("Missing GEMINI_KEY");
+  if (!API_KEY) throw new Error("Missing GEMINI_KEY");
 
 
   
@@ -358,8 +358,8 @@ async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
 }
 
 async function handleInterruption(userQuestion, currentStepInfo, topic){
-  const apiKey = process.env.GEMINI_KEY;
-    if (!apiKey) throw new Error("Missing GEMINI_KEY");
+  const API_KEY = process.env.GEMINI_KEY;
+    if (!API_KEY) throw new Error("Missing GEMINI_KEY");
 
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
