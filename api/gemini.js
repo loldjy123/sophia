@@ -3,9 +3,6 @@ async function askGemini(userPrompt) {
 
     const API_KEY = process.env.GEMINI_KEY;
 
-    if (!API_KEY){
-        console.error("Error");
-    }
     
     // Notice the endpoint uses :generateContent and passes the key in the URL
     const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
@@ -263,9 +260,6 @@ async function askGemini(userPrompt) {
 export async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0) {
   const apiKey = process.env.GEMINI_KEY;
 
-    if (!apiKey){
-        console.error("Error");
-    }
   
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
@@ -360,10 +354,6 @@ export async function askSophiaJudge(questionObj, userAnswer, attemptNumber = 0)
 export async function handleInterruption(userQuestion, currentStepInfo, topic){
   const apiKey = process.env.GEMINI_KEY;
 
-    if (!apiKey){
-        console.error("Error");
-    }
-  
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
 
@@ -446,9 +436,7 @@ export async function handleInterruption(userQuestion, currentStepInfo, topic){
 async function courseGenerator(courseInfo){
 
   const API_KEY = process.env.GEMINI_KEY;
-    if (!API_KEY){
-        console.error("Error");
-    }
+
   
   const URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${API_KEY}`;
 
